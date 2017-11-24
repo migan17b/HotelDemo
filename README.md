@@ -1,6 +1,8 @@
 # HotelDemo 
 Esta es un proyecto demo para aprender Spring con Jquery y BootStrap.
+
 ###Markdown
+
 ##1. Requerimientos.
   * Java jdk 1.8
   * Gradle 2.3.9
