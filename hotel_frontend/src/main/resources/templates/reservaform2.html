@@ -1,0 +1,561 @@
+
+<!DOCTYPE html>
+
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+	<title  th:text="#{reservaForm.registroTitulo}"></title>
+
+	
+	<link href="#" th:href="@{/libs/bootstrap/3.3.1/css/bootstrap.min.css}" rel="stylesheet" />
+	<!-- CSS - Tables -->
+	<link href="#" th:href="@{/libs/bootstrap/3.3.1/css/jquery.dataTables.css}" rel="stylesheet" />
+	<link href="#" th:href="@{/libs/jquery-ui/1.11.2/css/jquery-ui.min.css}" rel="stylesheet" />
+	<link href="#" th:href="@{/libs/jqgrid/4.6.0/css/ui.jqgrid.css}" rel="stylesheet" />
+	
+	<!-- CSS - DataTime -->
+	<link href="#" th:href="@{/libs/bootstrap/bootstrap-datetimepicker.css}" rel="stylesheet" />	
+		
+	<!-- CSS - common -->
+	<link href="#" th:href="@{/css/common/common.css}" rel="stylesheet" />	
+	<link href="#" th:href="@{/css/common/commonIE.css}" rel="stylesheet" />
+	
+	<!-- JS - Componentes -->
+	<script th:src="@{/libs/js/respond.js}" ></script>
+</head>
+<body>
+
+		<div class="container notificacionContainer">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="panel panel-primary">
+						<div id="divTituloPanelReservaForm" class="panel-heading"><p th:text="#{reservaForm.registroTitulo}"/>  </div>
+						<div class="panel-body">
+							<form  id="formReserva" role="form">
+								<div class="row">
+									<div class="col-xs-12">
+										<div class="panel panel-info">
+											<div class="panel-heading"> <p th:text="#{reservaForm.panelDatosDocumento}"/> </div>
+											<div class="panel-body">
+												<!--  body panel -->
+
+											
+												<div class="row">
+													<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+														<label class="btn-sm"><fmt:message key="reservaForm.lblEstado" /></label>
+													</div>
+													<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+														<input type="text" class="form-control input-sm upperCaseTextClase" id="txtNombreEtado" value="${documentoVO.nomEstado}" disabled />
+														<input type="hidden" id="hidCodEstado" value="${documentoVO.codEstado}" />
+													</div>
+												</div>
+											
+												<div class="row">
+													<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+														<label class="btn-sm"><fmt:message key="reservaForm.lblProyectador" /></label>
+													</div>
+													<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+														<input type="text" class="form-control input-sm upperCaseTextClase" id="txtRegProyectador" value="${documentoVO.codProyecta}" disabled />
+														
+														
+													</div>
+													<div class="col-xs-5 col-sm-8 col-md-8 col-lg-8 paddingLeftRightZeroClase">
+														<input type="text" class="form-control input-sm upperCaseTextClase" id="txtNombreProyectador" value="${documentoVO.nomProyecta}" disabled />
+													</div>
+													
+												</div>
+
+												<div class="row">
+													<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+														<label class="btn-sm"><fmt:message key="reservaForm.lblFechaProyecta" /></label>
+													</div>
+													<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+														<input type="text" class="form-control input-sm upperCaseTextClase" id="txtfechaProyecta" value="${documentoVO.fechaProyectadoFmt}" disabled />
+														
+													</div>
+													<div id="divLoadingBuscarUsuarioInput" class="col-xs-3 col-sm-3 col-md-2 col-lg-2 divLoadingClase">
+														<span>
+															<img src="/a/imagenes/loader.gif" alt="loader"><fmt:message key="reservaForm.txtAjaxCargando" />
+														</span>
+													</div>
+													<div id="divErrorBuscarUsuarioInput" class="col-xs-5 col-sm-5 col-md-5 col-lg-4 paddingLeftRightZeroWithSpaceClase divError">
+														<label id="etiquetaErrorBuscarUsuarioInput" class="btn-sm center-block"></label>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+														<label class="btn-sm"><fmt:message key="reservaForm.lblRUC" /></label>
+													</div>
+													<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+														<input type="text" class="form-control input-sm upperCaseTextClase" id="txtRuc" value="${documentoVO.numRuc}"  maxlength="11" onkeypress="return buscarUsuarioNumeroRucOnKeypressInput(event);" onchange="return buscarUsuarioNumeroRucOnChangeInput(event);"/>
+														
+														
+													</div>
+													<div class="col-xs-5 col-sm-8 col-md-8 col-lg-8 paddingLeftRightZeroClase">
+														<input type="text" class="form-control input-sm upperCaseTextClase" id="txtRazonSocial" value="${documentoVO.razonSocial}" disabled />
+													</div>
+													
+												</div>
+
+												<div class="row">
+													<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+														<label class="btn-sm"><fmt:message key="reservaForm.lblTipoDocumento" /></label>
+													</div>
+													<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+														<select id="selTipoDoc" class="form-control input-sm">
+											                <option value="00"><fmt:message key="reservaForm.txtOptionSeleccione" /></option>
+											                <c:if test="${not empty documentoVO.tipoDocumentosList}">
+																<c:forEach items="${documentoVO.tipoDocumentosList}" var="tipoDocumento">
+																	<option value="${tipoDocumento.codTipoDoc}">${tipoDocumento.desTipoDoc}</option>
+																</c:forEach>
+															</c:if>
+											            </select>
+											            <input type="hidden" id="hidCodTipoDoc" value="${documentoVO.codTipoDoc}" />
+													</div>
+													
+													
+													<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+														<label class="btn-sm"><fmt:message key="reservaForm.lblTipoProcedimiento"/> </label>
+													</div>
+													<div class="col-xs-3 col-sm-6 col-md-3 col-lg-3">
+														<select id="selTipoProc" class="form-control input-sm">
+											                <option value="00"><fmt:message key="reservaForm.txtOptionSeleccione" /></option>
+											                <c:if test="${not empty documentoVO.tipoProcedimientosList}">
+																<c:forEach items="${documentoVO.tipoProcedimientosList}" var="tipoPocedimiento">
+																	<option value="${tipoPocedimiento.codTipoProc}">${tipoPocedimiento.nomTipoProc}</option>
+																</c:forEach>
+															</c:if>
+											            </select>
+											            <input type="hidden" id="hidCodTipoProc" value="${documentoVO.codTipoProc}" />
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+														<label class="btn-sm"><fmt:message key="reservaForm.lblNumDocumento"/> </label>
+													</div>
+													<div class="col-xs-4 col-sm-2 col-md-3 col-lg-2">
+														<input type="text" class="form-control input-sm upperCaseTextClase" id="txtNumDoc" value="${documentoVO.numDocumento}" maxlength = "17" />
+														
+													</div>
+													<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+														<label class="btn-sm"><fmt:message key="reservaForm.lblFechaDocumento"/> </label>
+													</div>
+													<div class="col-xs-4 col-sm-3 col-md-3 col-lg-2">
+														<div id="etiquetaFechaDocumentoDiv" class="input-group date ">
+															<input id="etiquetaFechaDocumento" name="fecDocumento" value="${documentoVO.fechaDocumentoFmt}" type="text" class="form-control input-sm" onkeypress="return validarCharacterDate(event);" />
+															<span id="spanFechaDocumento" class="input-group-addon input-sm">
+																<span class="glyphicon glyphicon-calendar"></span>
+															</span>
+														</div>
+														
+														
+														
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+														<label class="btn-sm"><fmt:message key="reservaForm.lblExpedienteDocumento"/> </label>
+													</div>
+													<div class="col-xs-4 col-sm-2 col-md-3 col-lg-2">
+														<input type="text" class="form-control input-sm upperCaseTextClase" id="txtNumExp" value="${documentoVO.numExpediente}"  />
+														
+													</div>
+												</div>
+												<c:choose>
+													<c:when test="${documentoVO.numIdDocumento != '0' }">
+											
+														<div class="row" >
+															<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+																<label class="btn-sm"><fmt:message key="reservaForm.lblDocumentoAdjunto"/> </label>
+															</div>
+															<div class="col-xs-4 col-sm-4 col-md-4 col-lg-3">
+																<input id="file" type="file" name="file"  class="file" accept=".pdf" >
+															</div>
+															<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2 paddingLeftRightZeroClase">
+																<button id="btnAdjuntarDocumento" type="button" class="btn btn-primary btn-sm btn-block" title="<fmt:message key="reservaForm.btnAdjuntarDocumento" />"><fmt:message key="reservaForm.btnAdjuntarDocumento" /></button>
+															</div>
+														</div>
+													</c:when>
+													<c:otherwise>
+														<div class="row" id="divAdjuntarDocumento"   hidden="true">
+															<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+																<label class="btn-sm"><fmt:message key="reservaForm.lblDocumentoAdjunto"/> </label>
+															</div>
+															<div class="col-xs-4 col-sm-4 col-md-4 col-lg-3">
+																<input id="file" type="file" name="file"  class="file" accept=".pdf">
+															</div>
+															<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2 paddingLeftRightZeroClase">
+																<button id="btnAdjuntarDocumento" type="button" class="btn btn-primary btn-sm btn-block" title="<fmt:message key="reservaForm.btnAdjuntarDocumento" />"><fmt:message key="reservaForm.btnAdjuntarDocumento" /></button>
+															</div>
+														</div>
+													</c:otherwise>
+												</c:choose>
+												<c:choose>
+													<c:when test="${documentoVO.numIdEcm !='' && documentoVO.numIdEcm !='0'  }">
+														<div class="row" >
+															<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+															</div>
+															<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+																<a target="_blank" onclick="clickLinkDescargarDocumentoIndividual()" >Ver Documento</a>
+															</div>
+														</div>		
+													</c:when>
+													
+												</c:choose>
+												<c:choose>
+													<c:when test="${documentoVO.codEstado == '04' }">
+														<div class="row">
+															<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+																<label class="btn-sm"><fmt:message key="consultaDocumentoMasivo.lblRevision"/> </label>
+															</div>
+														</div>				
+														
+														<div class="row">
+															<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+																<label class="btn-sm"><fmt:message key="consultaDocumentoMasivo.lblRevisor" /></label>
+															</div>
+															<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+																<input type="text" class="form-control input-sm upperCaseTextClase" id="txtRegRevisor" value="${documentoVO.codRevisa}" disabled />
+																<input type="hidden" id="hidFlagDoAction" value="${documentoVO.flagDoAction}" />
+																<input type="hidden" id="hidnumIdDocumento" value="${documentoVO.numIdDocumento}" />
+																
+															</div>
+															<div class="col-xs-5 col-sm-8 col-md-8 col-lg-8 paddingLeftRightZeroClase">
+																<input type="text" class="form-control input-sm upperCaseTextClase" id="txtNombreRevisor" value="${documentoVO.nomRevisa}" disabled />
+															</div>
+														</div>		
+														<div class="row">
+															<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+																<label class="btn-sm"><fmt:message key="consultaDocumentoMasivo.lblFechaInicio" /></label>
+															</div>
+															<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+																<input type="text" class="form-control input-sm upperCaseTextClase" id="txtfechaInicio" value="${documentoVO.fechaRevisaFmt}" disabled />
+																
+															</div>
+														</div>																						
+														<div class="row">
+															<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+																<label class="btn-sm"><fmt:message key="consultaDocumentoMasivo.lblObsRevision"/> </label>
+															</div>
+															<div class="col-xs-4 col-sm-2 col-md-10 col-lg-10">
+																<input type="text" class="form-control input-sm upperCaseTextClase" id="txtObsRevision" value="${documentoVO.obsRevisa}"  />
+																
+															</div>
+														</div>		
+																											
+														<div class="row">
+															<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+																<label class="btn-sm"><fmt:message key="consultaDocumentoMasivo.lblAprobacion"/> </label>
+															</div>
+														</div>													
+														<div class="row">
+															<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+																<label class="btn-sm"><fmt:message key="consultaDocumentoMasivo.lblAprobador" /></label>
+															</div>
+															<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+																<input type="text" class="form-control input-sm upperCaseTextClase" id="txtRegAprobador" value="${documentoVO.codAprueba}" disabled />
+																<input type="hidden" id="hidFlagDoAction" value="${documentoVO.flagDoAction}" />
+																<input type="hidden" id="hidnumIdDocumento" value="${documentoVO.numIdDocumento}" />
+																
+															</div>
+															<div class="col-xs-5 col-sm-8 col-md-8 col-lg-8 paddingLeftRightZeroClase">
+																<input type="text" class="form-control input-sm upperCaseTextClase" id="txtNombreAprobador" value="${documentoVO.nomAprueba}" disabled />
+															</div>
+														</div>		
+														<div class="row">
+															<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+																<label class="btn-sm"><fmt:message key="consultaDocumentoMasivo.lblFechaEmision" /></label>
+															</div>
+															<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+																<input type="text" class="form-control input-sm upperCaseTextClase" id="txtfechaEmision" value="${documentoVO.fechaApruebaFmt}" disabled />
+																
+															</div>
+														</div>																						
+														<div class="row">
+															<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+																<label class="btn-sm"><fmt:message key="consultaDocumentoMasivo.lblObsAprobacion"/> </label>
+															</div>
+															<div class="col-xs-4 col-sm-2 col-md-10 col-lg-10">
+																<input type="text" class="form-control input-sm upperCaseTextClase" id="txtObsAprobacion" value="${documentoVO.obsAprueba}"  />
+																
+															</div>
+														</div>	
+													</c:when>
+												</c:choose>
+
+												<div class="row"> &nbsp; </div>
+
+												<div class="row">
+												    <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-5 col-md-offset-3 col-lg-4 col-lg-offset-4">
+												    	<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+														    <button id="btnGuardarDocumentoIndividual" type="button" class="btn btn-primary btn-sm btn-block" title="<fmt:message key='reservaForm.btnGuardarDocumentoIndividual' />"><fmt:message key="reservaForm.btnGuardarDocumentoIndividual" /></button>
+													    </div>
+													    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+														    <button id="btnProyectar" type="button" class="btn btn-primary btn-sm btn-block" title="<fmt:message key='reservaForm.btnProyectar' />"><fmt:message key="reservaForm.btnProyectar" /></button>
+													    </div>
+													    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+														    <button id="btnCancelar" type="button" class="btn btn-primary btn-sm btn-block" title="<fmt:message key='reservaForm.btnCancelar' />"><fmt:message key="reservaForm.btnCancelar" /></button>
+													    </div>
+												    </div>
+												</div>
+
+											
+
+												<!-- Fin body panel -->
+											</div>
+
+										</div>
+									</div>
+								</div>
+													
+							</form>
+							<!-- formDocumentoAdjunto -->
+							
+							<!-- Modal -->
+							<div id="divMensajeConfirmacionGrabarDocumento" class="modal fade" data-keyboard="false" data-backdrop="static" >
+								<div class="container notificacionMensajeConfirmacionContainer verticalAlignmentHelper">
+									<div class="row verticalAlignCenter">
+										<div class="col-xs-12">
+											<div class="panel panel-primary">
+												<div id="divTituloPanelMensajeConfirmacionGrabarDocumento" class="panel-heading"><fmt:message key="grabarDocumentoIndividual.registroTitulo" /></div>
+												<div class="panel-body">
+													<div class="row paddingTop10">
+														<div class="col-xs-6">
+															<button id="btnSiMensajeConfirmacionGrabarDocumento" type="button" class="btn btn-primary btn-sm center-block centerBlockBotonXMiniSmallClass"><fmt:message key="grabarDocumentoIndividual.btnSi" /></button>
+														</div>
+														<div class="col-xs-6">
+															<button id="btnNoMensajeConfirmacionGrabarDocumento" type="button" class="btn btn-primary btn-sm center-block centerBlockBotonXMiniSmallClass"><fmt:message key="grabarDocumentoIndividual.btnNo" /></button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="divMensajeConfirmacionRegistroDocumentoExitoso" class="modal fade" data-keyboard="false" data-backdrop="static" >
+								<div class="container notificacionMensajeConfirmacionContainer verticalAlignmentHelper">
+									<div class="row verticalAlignCenter">
+										<div class="col-xs-12">
+											<div class="panel panel-primary">
+												<div id="divTituloPanelMensajeConfirmacionRegistroDocumentoExitoso" class="panel-heading"><fmt:message key="registroDocumentoIndividualExitoso.registroTitulo" /></div>
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-xs-12">
+															<span id="etiquetaNroDocumentoMensajeConfirmacionRegistroDocumentoExitoso"><fmt:message key="registroDocumentoIndividualExitoso.lblNroDocumento" /></span>
+														</div>
+													</div>
+													<div class="row paddingTop10">
+														<div class="col-xs-12">
+															<button id="btnAceptarMensajeConfirmacionRegistroDocumentoExitoso" type="button" class="btn btn-primary btn-sm center-block centerBlockBotonSmallClass"><fmt:message key="registroDocumentoIndividualExitoso.btnAceptar" /></button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div id="divMensajeConfirmacionProyectarDocumento" class="modal fade" data-keyboard="false" data-backdrop="static" >
+								<div class="container notificacionMensajeConfirmacionContainer verticalAlignmentHelper">
+									<div class="row verticalAlignCenter">
+										<div class="col-xs-12">
+											<div class="panel panel-primary">
+
+												<div id="divTituloPanelMensajeConfirmacionProyectarDocumento" class="panel-heading"><fmt:message key="proyectarDocumentoIndividual.registroTitulo" /></div>
+												<div class="panel-body">
+													<div class="row paddingTop10">
+														<div class="col-xs-6">
+															<button id="btnSiMensajeConfirmacionProyectarDocumento" type="button" class="btn btn-primary btn-sm center-block centerBlockBotonXMiniSmallClass"><fmt:message key="grabarDocumentoIndividual.btnSi" /></button>
+														</div>
+														<div class="col-xs-6">
+															<button id="btnNoMensajeConfirmacionProyectarDocumento" type="button" class="btn btn-primary btn-sm center-block centerBlockBotonXMiniSmallClass"><fmt:message key="grabarDocumentoIndividual.btnNo" /></button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div id="divMensajeConfirmacionProyectarDocumentoExitoso" class="modal fade" data-keyboard="false" data-backdrop="static" >
+								<div class="container notificacionMensajeConfirmacionContainer verticalAlignmentHelper">
+									<div class="row verticalAlignCenter">
+										<div class="col-xs-12">
+											<div class="panel panel-primary">
+												<div id="divTituloPanelMensajeConfirmacionProyectarDocumentoExitoso" class="panel-heading"><fmt:message key="registroDocumentoIndividualExitoso.registroTitulo" /></div>
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-xs-12">
+															<span id="etiquetaNroDocumentoMensajeConfirmacionProyectarDocumentoExitoso"><fmt:message key="registroDocumentoIndividualExitoso.lblNroDocumento" /></span>
+														</div>
+													</div>
+													<div class="row paddingTop10">
+														<div class="col-xs-12">
+															<button id="btnAceptarMensajeConfirmacionProyectarDocumentoExitoso" type="button" class="btn btn-primary btn-sm center-block centerBlockBotonSmallClass"><fmt:message key="registroDocumentoIndividualExitoso.btnAceptar" /></button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="divMensajeConfirmacionCancelarDocumento" class="modal fade" data-keyboard="false" data-backdrop="static" >
+								<div class="container notificacionMensajeConfirmacionContainer verticalAlignmentHelper">
+									<div class="row verticalAlignCenter">
+										<div class="col-xs-12">
+											<div class="panel panel-primary">
+												<div id="divTituloPanelMensajeConfirmacionCancelarDocumento" class="panel-heading"><fmt:message key="cancelarDocumentoIndividual.registroTitulo" /></div>
+												<div class="panel-body">
+													<div class="row paddingTop10">
+														<div class="col-xs-6">
+															<button id="btnSiMensajeConfirmacionCancelarDocumento" type="button" class="btn btn-primary btn-sm center-block centerBlockBotonXMiniSmallClass"><fmt:message key="grabarDocumentoIndividual.btnSi" /></button>
+														</div>
+														<div class="col-xs-6">
+															<button id="btnNoMensajeConfirmacionCancelarDocumento" type="button" class="btn btn-primary btn-sm center-block centerBlockBotonXMiniSmallClass"><fmt:message key="grabarDocumentoIndividual.btnNo" /></button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="divMensajeConfirmacionLoadingAplicativo" class="modal fade" data-keyboard="false" data-backdrop="static" >
+								<div class="container notificacionMensajeConfirmacionContainer verticalAlignmentHelper">
+									<div class="row verticalAlignCenter">
+										<div class="col-xs-12">
+											<div class="panel panel-primary">
+												<div id="divTituloPanelMensajeConfirmacionLoadingAplicativo" class="panel-heading divErrorNotificacionMensajeConfirmacionContainer"><fmt:message key="reservaForm.txtCargando" /></div>
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-xs-6 col-xs-offset-3">
+															<span>
+																<img src="/a/imagenes/loader.gif" alt="loader"><fmt:message key="reservaForm.txtAjaxCargando" />
+															</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div id="divMensajeConfirmacionErrorAplicativo" class="modal fade" data-keyboard="false" data-backdrop="static" >
+								<div class="container notificacionMensajeConfirmacionContainer verticalAlignmentHelper">
+									<div class="row verticalAlignCenter">
+										<div class="col-xs-12">
+											<div class="panel panel-danger">
+												<div id="divTituloPanelMensajeConfirmacionErrorAplicativo" class="panel-heading divErrorNotificacionMensajeConfirmacionContainer"></div>
+												<div class="panel-body">
+													<div id="divDocumentoRegistradaMensajeConfirmacionErrorAplicativo" class="row">
+														<div class="col-xs-12">
+															<span id="etiquetaDocumentoRegistradaMensajeConfirmacionErrorAplicativo"><fmt:message key="errorAplicativo.mensageError" /></span>
+														</div>
+													</div>
+													<div class="row paddingTop10">
+														<div class="col-xs-12">
+															<button id="btnAceptarMensajeConfirmacionErrorAplicativo" type="button" class="btn btn-danger btn-sm center-block centerBlockBotonSmallClass"><fmt:message key="errorAplicativo.btnAceptar" /></button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div id="divScreenBlock" class="modal fade" data-keyboard="false" data-backdrop="static" >
+								<div class="container verticalAlignmentHelper">
+									<div class="row verticalAlignCenter">
+									</div>
+								</div>
+							</div>
+
+							<!-- fin Modal -->
+							<iframe width="200px" height="200px" frameborder="0" id="special_iframe_target">
+
+        						
+        					</iframe>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="/a/js/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="/a/js/libs/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		<!-- JS - Tables -->
+		<script src="/a/js/libs/jquery/1.11.1/jquery.dataTables.js" type="text/javascript"></script>
+		<script src="/a/js/libs/jqgrid/4.6.0/js/jquery.jqGrid.src.js"></script>
+		<script src="/a/js/libs/jqgrid/4.6.0/js/i18n/grid.locale-es.js"></script>
+		<script src="/a/js/libs/jquery-ui/1.11.2/js/jquery-ui.min.js"></script>
+
+		<!-- JS - DataTime -->
+		
+			<script src="/a/js/iqbf2/js/moment-with-locales.js"></script>
+			<script src="/a/js/iqbf2/js/bootstrap-datetimepicker.js"></script>
+	
+
+		<!--[if IE]>
+			<script src="/a/js/iqbf2/js/bootstrap-datepicker-IE.js"></script>
+		
+		<![endif]-->
+		<!-- JS - Componentes -->
+		<script src="${contextPathUrl}/js/general/common.js?1.0.0"></script>
+		<script src="${contextPathUrl}/js/general/service.js?1.0.0"></script>
+		<script src="/a/js/iqbf2/js/jquery.form.js"></script>
+		<script src="${contextPathUrl}/js/general/buscarUsuarioInput.js?1.0.0"></script>
+		<script src="${contextPathUrl}/js/individual/reservaForm.js?1.0.0"></script>
+		
+		<script type="text/javascript">
+			var contextPathUrl = "${contextPathUrl}";
+
+			var propertyMessagereservaForm = {
+				registroTitulo: "<fmt:message key='reservaForm.registroTitulo' />",	
+				modificacionTitulo: "<fmt:message key='reservaForm.modificacionTitulo' />",
+				grabarDocumentoIndividualRegistroTitulo: "<fmt:message key='grabarDocumentoIndividual.registroTitulo' />",
+				grabarDocumentoIndividualModificacionTitulo: "<fmt:message key='grabarDocumentoIndividual.modificacionTitulo' />",
+				proyectarDocumentoIndividualRegistroTitulo: "<fmt:message key='proyectarDocumentoIndividual.registroTitulo' />",
+				registroDocumentoIndividualExitosoProyectarTitulo:"<fmt:message key='registroDocumentoIndividualExitoso.proyectarTitulo' />",
+				registroDocumentoIndividualExitosoRegistroTitulo: "<fmt:message key='registroDocumentoIndividualExitoso.registroTitulo' />",
+				registroDocumentoIndividualExitosoModificacionTitulo: "<fmt:message key='registroDocumentoIndividualExitoso.modificacionTitulo' />",
+				registroDocumentoIndividualExitosoNroDocumento: "<fmt:message key='registroDocumentoIndividualExitoso.lblNroDocumento' />"
+			};
+
+			var errorMessagereservaForm = {
+				errorGenerico: "<fmt:message key='error.mensaje.generico' />"
+			};
+
+			var errorMessageBuscarUsuarioInput = {
+				errorGenerico: "<fmt:message key='error.mensaje.generico' />",
+				cantidadMinimaNumeroRegistro: "<fmt:message key='buscarUsuario.messageError.cantidadMinimaNumeroRegistro' />",
+				sinRegistrosBusqueda: "<fmt:message key='buscarUsuario.messageError.sinRegistrosBusqueda' />"
+			};
+			
+			
+			//js load ready
+			
+			$(document).ready(function() {
+				initElementsDocumentoIndividual();
+				initElementsBuscarUsuarioInputService(errorMessageBuscarUsuarioInput);
+				
+			});
+		</script>	
+
+
+
+</body>
+</html>

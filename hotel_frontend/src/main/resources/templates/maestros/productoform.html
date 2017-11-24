@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Hotel</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link href="#" th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<div class="jumbotron">
+		<div class="container">
+			<h1>Registro Producto</h1>
+			<br/>
+			<form action="#" th:action="@{/producto/addproducto}" th:object="${productoModel}" method="post">
+				<input type="hidden" class="form-control" th:field="*{id}" ></input>
+				<input type="hidden" class="form-control" th:field="*{rowVersion}" ></input>
+				
+				Nombre: <input type="text" class="form-control" th:field="*{nombre}" th:value="*{nombre}"  ></input>
+				<br/>
+				Descripcion: <input type="text" class="form-control" th:field="*{descripcion}" th:value="*{descripcion}"></input>
+				<br/>
+				Precio: <input type="text" class="form-control" th:field="*{precioVenta}" th:value="*{precioVenta}"></input>
+				<br/>
+				Tipo: <input type="text" class="form-control" th:field="*{tipo}" th:value="*{tipo}" ></input>
+				<br/>
+				<br/>
+				Unidad: <input type="text" class="form-control" th:field="*{unidad}" th:value="*{unidad}" ></input>
+				<br/>
+				<br/>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Grabar
+				</button>
+				
+			</form>
+			<a href="#" th:href="@{/producto/cancel}" >
+				<button class="btn btn-lg btn-primary btn-block" type="submit">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar
+				</button>
+			</a>
+		</div>
+	</div>
+
+</body>
+</html>

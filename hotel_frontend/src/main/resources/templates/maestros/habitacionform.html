@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Hotel</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link href="#" th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<div class="jumbotron">
+		<div class="container">
+			<h1>Registro Habitacion</h1>
+			<br/>
+			<form action="#" th:action="@{/habitacion/addhabitacion}" th:object="${habitacionModel}" method="post">
+				<input type="hidden" class="form-control" th:field="*{id}" ></input>
+				<input type="hidden" class="form-control" th:field="*{rowVersion}" ></input>
+				<input type="hidden" class="form-control" th:field="*{idHotel}" ></input>
+				Categoria<select th:field="*{idCategoria}">
+				  <option th:each="categoria : ${habitacionModel.categorias}" 
+				          th:value="${categoria.id}" 
+				          th:text="${categoria.nombre}">Wireframe</option>
+				</select>
+				<br/>
+				Numero Habitación: <input type="text" class="form-control" th:field="*{numHabitacion}" th:value="*{numHabitacion}"  maxlength="3"></input>
+				<br/>
+				Piso: <input type="text" class="form-control" th:field="*{numPiso}" th:value="*{numPiso}"  ></input>
+				<br/>
+				
+				Camas: <input type="number" class="form-control" th:field="*{numCamas}" th:value="*{numCamas}"></input>
+				<br/>
+			
+				Precio Dia: <input type="number" class="form-control" th:field="*{precioDia}" th:value="*{precioDia}"></input>
+				<br/>
+			
+				Precio Hora: <input type="number" class="form-control" th:field="*{precioHora}" th:value="*{precioHora}"></input>
+				<br/>
+			
+				Caracteristicas: <input type="text" class="form-control" th:field="*{caracteristicas}" th:value="*{caracteristicas}"></input>
+				<br/>
+			
+			
+		
+				<br/>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Grabar
+				</button>
+				
+			</form>
+			<a href="#" th:href="@{/habitacion/cancel?idHotel=__${habitacionModel.idHotel}__}" >
+				<button class="btn btn-lg btn-primary btn-block" type="submit">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar
+				</button>
+			</a>
+		</div>
+	</div>
+
+</body>
+</html>

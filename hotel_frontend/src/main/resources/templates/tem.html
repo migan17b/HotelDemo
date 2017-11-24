@@ -1,0 +1,34 @@
+<script type="text/javascript">
+		var contextPathUrl = "${contextPathUrl}";
+
+		var propertyMessagereservaForm = {
+			registroTitulo: "<fmt:message key='reservaForm.registroTitulo' />",	
+			modificacionTitulo: "<fmt:message key='reservaForm.modificacionTitulo' />",
+			grabarDocumentoIndividualRegistroTitulo: "<fmt:message key='grabarDocumentoIndividual.registroTitulo' />",
+			grabarDocumentoIndividualModificacionTitulo: "<fmt:message key='grabarDocumentoIndividual.modificacionTitulo' />",
+			proyectarDocumentoIndividualRegistroTitulo: "<fmt:message key='proyectarDocumentoIndividual.registroTitulo' />",
+			registroDocumentoIndividualExitosoProyectarTitulo:"<fmt:message key='registroDocumentoIndividualExitoso.proyectarTitulo' />",
+			registroDocumentoIndividualExitosoRegistroTitulo: "<fmt:message key='registroDocumentoIndividualExitoso.registroTitulo' />",
+			registroDocumentoIndividualExitosoModificacionTitulo: "<fmt:message key='registroDocumentoIndividualExitoso.modificacionTitulo' />",
+			registroDocumentoIndividualExitosoNroDocumento: "<fmt:message key='registroDocumentoIndividualExitoso.lblNroDocumento' />"
+		};
+
+		var errorMessagereservaForm = {
+			errorGenerico: "<fmt:message key='error.mensaje.generico' />"
+		};
+
+		var errorMessageBuscarUsuarioInput = {
+			errorGenerico: "<fmt:message key='error.mensaje.generico' />",
+			cantidadMinimaNumeroRegistro: "<fmt:message key='buscarUsuario.messageError.cantidadMinimaNumeroRegistro' />",
+			sinRegistrosBusqueda: "<fmt:message key='buscarUsuario.messageError.sinRegistrosBusqueda' />"
+		};
+		
+		
+		//js load ready
+		
+		$(document).ready(function() {
+			initElementsDocumentoIndividual();
+			initElementsBuscarUsuarioInputService(errorMessageBuscarUsuarioInput);
+			
+		});
+	</script>	

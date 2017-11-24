@@ -1,0 +1,12 @@
+server:
+  context-path: /frontendhotel
+  port: 5092
+
+spring:
+  thymeleaf:
+    cache: false 
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: hotel

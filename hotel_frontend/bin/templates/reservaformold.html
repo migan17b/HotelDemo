@@ -1,0 +1,66 @@
+<div class="row">
+												<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+													<label class="btn-sm"><fmt:message key="reservaForm.lblProyectador" /></label>
+												</div>
+												<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+													<input type="text" class="form-control input-sm upperCaseTextClase" id="txtRegProyectador" value="${documentoVO.codProyecta}" disabled />
+													
+													
+													
+												</div>
+												<div class="col-xs-5 col-sm-8 col-md-8 col-lg-8 paddingLeftRightZeroClase">
+													<input type="text" class="form-control input-sm upperCaseTextClase" id="txtNombreProyectador" value="${documentoVO.nomProyecta}" disabled />
+												</div>
+												
+											</div>
+
+											<div class="row">
+												<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+													<label class="btn-sm"><fmt:message key="reservaForm.lblFechaProyecta" /></label>
+												</div>
+												<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+													<input type="text" class="form-control input-sm upperCaseTextClase" id="txtfechaProyecta" value="${documentoVO.fechaProyectadoFmt}" disabled />
+													
+												</div>
+												<div id="divLoadingBuscarUsuarioInput" class="col-xs-3 col-sm-3 col-md-2 col-lg-2 divLoadingClase">
+													<span>
+														<img src="/a/imagenes/loader.gif" alt="loader"><fmt:message key="reservaForm.txtAjaxCargando" />
+													</span>
+												</div>
+												<div id="divErrorBuscarUsuarioInput" class="col-xs-5 col-sm-5 col-md-5 col-lg-4 paddingLeftRightZeroWithSpaceClase divError">
+													<label id="etiquetaErrorBuscarUsuarioInput" class="btn-sm center-block"></label>
+												</div>
+											</div>
+
+											
+
+											
+											
+											<div class="row">
+												<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+													<label class="btn-sm"><fmt:message key="reservaForm.lblExpedienteDocumento"/> </label>
+												</div>
+												<div class="col-xs-4 col-sm-2 col-md-3 col-lg-2">
+													<input type="text" class="form-control input-sm upperCaseTextClase" id="txtNumExp" value="${documentoVO.numExpediente}"  />
+													
+												</div>
+											</div>
+											
+											
+										
+
+											<div class="row"> &nbsp; </div>
+
+											<div class="row">
+											    <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-5 col-md-offset-3 col-lg-4 col-lg-offset-4">
+											    	<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+													    <button id="btnGuardarDocumentoIndividual" type="button" class="btn btn-primary btn-sm btn-block" title="<fmt:message key='reservaForm.btnGuardarDocumentoIndividual' />"><fmt:message key="reservaForm.btnGuardarDocumentoIndividual" /></button>
+												    </div>
+												    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+													    <button id="btnProyectar" type="button" class="btn btn-primary btn-sm btn-block" title="<fmt:message key='reservaForm.btnProyectar' />"><fmt:message key="reservaForm.btnProyectar" /></button>
+												    </div>
+												    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+													    <button id="btnCancelar" type="button" class="btn btn-primary btn-sm btn-block" title="<fmt:message key='reservaForm.btnCancelar' />"><fmt:message key="reservaForm.btnCancelar" /></button>
+												    </div>
+											    </div>
+											</div>

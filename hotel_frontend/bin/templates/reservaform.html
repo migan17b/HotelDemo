@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+	<title  th:text="#{reservaForm.registroTitulo}"></title>
+
+	   <link href="#" th:href="@{/css/style.css}" rel="stylesheet" />
+	<link href="#" th:href="@{/libs/bootstrap/3.3.1/css/bootstrap.min.css}" rel="stylesheet" />
+	
+	<!-- CSS - Tables -->
+	<link href="#" th:href="@{/libs/bootstrap/3.3.1/css/jquery.dataTables.css}" rel="stylesheet" />
+	<link href="#" th:href="@{/libs/jquery-ui/1.11.2/css/jquery-ui.min.css}" rel="stylesheet" />
+	<link href="#" th:href="@{/libs/jqgrid/4.6.0/css/ui.jqgrid.css}" rel="stylesheet" />
+	
+	<!-- CSS - DataTime -->
+	<link href="#" th:href="@{/libs/bootstrap/bootstrap-datetimepicker.css}" rel="stylesheet" />	
+		
+	<!-- CSS - common -->
+	<link href="#" th:href="@{/css/common/common.css}" rel="stylesheet" />	
+	<link href="#" th:href="@{/css/common/commonIE.css}" rel="stylesheet" />
+	
+	<!-- JS - Componentes -->
+	<script th:src="@{/libs/js/respond.js}" ></script>
+</head>
+<body>
+
+	<div class="container notificacionContainer">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="panel panel-primary">
+					<div id="divTituloPanelReservaForm" class="panel-heading"><p th:text="#{reservaForm.registroTitulo}"/>  </div>
+					<div class="panel-body">
+						<form  id="formReserva" role="form" th:object="${reservaModel}">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="panel panel-info">
+										<div class="panel-heading"> <p th:text="#{reservaForm.panelDatosDocumento}"/> </div>
+										<div class="panel-body">
+											<!--  body panel -->
+
+										
+											<div class="row">
+												<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+													<label class="btn-sm" th:text="#{reservaForm.lblCosto}" >  </label>
+												</div>
+												<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+													<input type="text" class="form-control input-sm upperCaseTextClase" 
+													id="txtCosto" th:field="*{costo}" th:value="*{costo}"></input>
+													
+												</div>
+											</div>
+										
+											
+										
+
+											<!-- Fin body panel -->
+										</div>
+
+									</div>
+								</div>
+							</div>
+												
+						</form>
+						<!-- formReserva -->
+						
+						
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script th:src="@{/libs/jquery/1.11.2/jquery.min.js}" ></script>	
+	<script th:src="@{/libs/bootstrap/3.3.1/js/bootstrap.min.js}" ></script>
+	<!-- JS - Tables -->
+	<script th:src="@{/libs/jquery/1.11.2/jquery.dataTables.js}" ></script>
+	<script th:src="@{/libs/jqgrid/4.6.0/js/jquery.jqGrid.src.js}" ></script>
+	<script th:src="@{/libs/jqgrid/4.6.0/js/i18n/grid.locale-es.js}" ></script>
+	<script th:src="@{/libs/jquery-ui/1.11.2/js/jquery-ui.min.js}" ></script>
+
+	<!-- JS - DataTime -->
+	<script th:src="@{/libs/js/moment-with-locales.js}" ></script>
+	<script th:src="@{/libs/bootstrap/bootstrap-datetimepicker.js}" ></script>
+
+	<!-- JS - Componentes -->
+	<script th:src="@{/js/general/common.js?1.0.0}" ></script>
+	<script th:src="@{/js/general/service.js?1.0.0}" ></script>
+	<script th:src="@{/libs/js/jquery.form.js}" ></script>
+	
+	<script th:src="@{/js/reservaForm.js?1.0.0}" ></script>
+
+</body>
+</html>

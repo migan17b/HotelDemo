@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Hotel</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet"  th:href="@{/css/bootstrap/bootstrap-flex.min.css}"/>
+   
+   <!-- app CSS -->
+    <link rel="stylesheet" href="#" type="text/css" th:href="@{/css/app.css}"/>
+
+    
+</head>
+<body>
+  <!-- Header -->
+
+    <header id="header-container">
+      <div class="container">
+        <div class="row flex-items-xs-middle flex-items-xs-between">
+          <div class="col-xs-6">
+            <h1 class="pull-xs-left">HOTEL MELANY</h1>
+          </div>
+          <div class="col-xs-3">
+            <button class="navbar-toggler pull-xs-right hidden-sm-up" type="button" data-toggle="collapse" data-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+              &#9776;
+            </button>
+           <small class="pull-xs-right text-md-right hidden-xs-down"  >User , <span th:text="${userSession.fullName}"> </span>  </small>
+            <form  th:action="@{/logout}" method="POST">
+           
+           		 <a th:href="'#'"  th:onclick="'document.forms[0].submit();return false;'" class="hidden-xs-down text-uppercase font-weight-bold pull-sm-right">Salir</a>
+           
+			</form>
+          </div>
+          <div class="col-xs-12"   >
+           	<small class="hidden-sm-up" >User , <span th:text="${userSession.fullName}"> </span>  </small>
+           </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- /Header -->
+	 <!-- Breadcrumbs -->
+
+    <div id="breadcrumbs-container">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs">
+            <nav class="breadcrumb">
+            <a class="breadcrumb-item"  th:href="@{/menu/showmenu}">Inicio</a>
+              <a class="breadcrumb-item"  th:href="@{/menu/showmaestros}">Maestros</a>
+              <a class="breadcrumb-item"  th:href="@{/categoria/cancel}">Categorias</a>
+              <span class="breadcrumb-item active">Mantenimiento </span>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- /Breadcrumbs -->
+	
+		<div class="container">
+			<h3>Registro Categoria</h3>
+			<br/>
+			<form action="#" th:action="@{/categoria/addcategoria}" th:object="${categoriaModel}" method="post">
+			<input type="hidden" class="form-control" th:field="*{id}" ></input>
+			<input type="hidden" class="form-control" th:field="*{rowVersion}" ></input>
+			<div class="row">
+				<div class="col-xm-12 col-sm-4 col-md-3"  >
+					Nombre: 
+				</div>	
+				<div class="col-xm-12 col-sm-8 col-md-9">
+					<input type="text" class="form-control" th:field="*{nombre}" th:value="*{nombre}"  ></input>
+				</div>	
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-xm-12 col-sm-4 col-md-3">
+				Precio: 
+				</div>
+				<div class="col-xm-12 col-sm-8 col-md-9">
+				<input type="number" class="form-control" th:field="*{precio}" th:value="*{precio}"></input>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-sm-4 ">
+				
+				<button class="btn btn-lg btn-primary btn-sd btn-block" type="submit">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Grabar
+				</button>
+				</div>
+				<div class="col-sm-4  offset-md-4 ">
+				<a href="#" th:href="@{/categoria/cancel}" >
+				<button class="btn btn-lg btn-primary btn-sd btn-block" type="submit">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar
+				</button>
+				</a>
+				</div>
+			</div>
+			</form>
+			
+		</div>
+	
+ <!-- Footer -->
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	
+    <div id="footer-container">
+      <div class="container">
+        <div class="row text-xs-center text-sm-left">
+          <div class="col-md-4">
+          
+              <h4 class="text-uppercase">Hotel Melany</h4>
+              <small >Av. Jose pardo de Zela 150</small> <br/>
+              <small >telf. (01)4710470</small>
+              <div class="form-group">
+               
+                <small id="emailHelp" class="form-text text-muted">by Social Data 2017</small>
+              </div>
+             
+          
+          </div>
+          <div class="col-md-3 offset-md-5  hidden-xs-down">
+            <h4 class="navigation">Navegación</h4>
+            <ul class="nav">
+             <li class="nav-item"  th:each="perfil : ${menuSession.menus}">
+							<a class="nav-link" href="#" th:href="@{__${perfil.module.url}__}" > <span th:text="${perfil.module.menuLabel}"  ></span> </a> 							
+			</li>
+              <li class="nav-item"><a class="nav-link" href="#">Salir</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- /Footer -->
+</body>
+</html>
