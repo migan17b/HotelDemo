@@ -206,14 +206,17 @@
 						
 				</div>
 				<div class="col-xs-6 col-md-4 ">
-					<a href="#" th:href="@{/categoria/categoriaform}">
+					
+					
+					<a href="#" th:onclick="'window.open(\'../categoria/categoriareport\',\'MyWindow\',width=250,height=300);'"> 
 						<button id="btnPrint" class="btn btn-lg btn-primary btn-sd btn-block" type="submit"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
 					</a>	
 				</div>
 				<div class="col-xs-6 col-md-4 ">
-					<a href="#" th:href="@{/categoria/categoriaform}">
+					
+					<form  th:action="@{/categoria/categoriaexcel}" method="GET">
 						<button id="btnExcel" class="btn btn-lg btn-primary btn-sd btn-block" type="submit"><i class="fa fa-table" aria-hidden="true"></i> Excel</button>
-					</a>	
+					</form>	
 				</div>
 				<div class="col-xs-6 col-md-4 ">
 					
@@ -252,12 +255,12 @@
           </div>
           <div class="modal-body">
 
-            <form action="#" class="form">
+            <form action="#" th:action="@{/categoria/sendmail}" th:object="${correoModel}" method="post" class="form">
             	<div class="row ">
 		             <div class="col-xs-12">	 
 		              <div class="form-group">
 		              	Ingrese correo destino
-		                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="tu@correo.com" name="email"/>
+		                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="tu@correo.com" name="email"   th:field="*{email}"  />
 		                
 		              </div>
 		              </div>

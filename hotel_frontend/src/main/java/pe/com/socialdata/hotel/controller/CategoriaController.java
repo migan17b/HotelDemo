@@ -1,6 +1,13 @@
 package pe.com.socialdata.hotel.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,8 +25,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import pe.com.socialdata.hotel.jasper.HabitacionReporte;
+import pe.com.socialdata.hotel.jasper.ReporteArchivoBean;
 import pe.com.socialdata.hotel.model.CategoriaModel;
+import pe.com.socialdata.hotel.model.CorreoModel;
+import pe.com.socialdata.hotel.model.HotelModel;
 import pe.com.socialdata.hotel.model.MenuDTO;
 import pe.com.socialdata.hotel.model.UserModel;
 import pe.com.socialdata.hotel.service.CategoriaService;
@@ -83,11 +95,13 @@ public class CategoriaController {
 		LOG.info("METHOD 'showcategorias'");
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_CATEGORIAS);
 	
+		CorreoModel correoModel= new CorreoModel();
 		
 		mav.addObject("categorias", categoriaService.listAllCategoria(userSession.getToken()));
-
+		mav.addObject("correoModel", correoModel);
 		mav.addObject("userSession", userSession);
 		mav.addObject("menuSession", menuSession);
+		
 		return mav;
 	}
 	
@@ -130,4 +144,102 @@ public class CategoriaController {
 		return showcategorias(userSession, menuSession);
 	}
 	
+	@GetMapping("/categoriareport")
+	public String categoriareport(
+			Model model,@SessionAttribute("userSession") UserModel userSession) {
+		LOG.info("METHOD categoriareport 'categoriaform'-- PARAMS:' "  );
+		String token=userSession.getToken();
+		CategoriaModel categoriaModel = new CategoriaModel();
+		
+		
+		List<CategoriaModel> categorias=null;
+	
+		categorias =categoriaService.listAllCategoria(token);
+		List<Map <String,Object>> listaCategorias = new ArrayList<>(); 
+		
+			    
+		for (int i =0 ; i < categorias.size(); i++) {
+			Map<String , Object> cat = new HashMap<>();
+			cat.put("id", categorias.get(i).getId().toString());
+			cat.put("nombre", categorias.get(i).getNombre());
+			cat.put("precio", categorias.get(i).getPrecio().toString());
+			listaCategorias.add(cat);
+		}
+		
+		model.addAttribute("categoriaModel", categoriaModel);
+		
+		LOG.info("METHOD 'categoriaform':' Fin");
+		 model.addAttribute("format", "pdf");
+	        model.addAttribute("datasource",listaCategorias);
+	        model.addAttribute("nom_hotel", "MELANY");
+	   
+	        return "categorias_report";
+	}
+
+	
+	@GetMapping("/categoriaexcel")
+	public ModelAndView categoriaexcel(
+			Model model,@SessionAttribute("userSession") UserModel userSession,  HttpServletResponse response) {
+		LOG.info("METHOD 'categoriaexcel'' "  );
+		ModelAndView modelAndView = null;
+		String token=userSession.getToken();
+		CategoriaModel categoriaModel = new CategoriaModel();
+		
+		
+			ReporteArchivoBean reporteArchivoBean =categoriaService.generateEXCEL( token);
+			
+			
+			
+			if (reporteArchivoBean == null) {
+				
+			}
+		
+			//setAuditoriaBeanHolder(request, response);
+
+			// setear el response y escribir los bytes del pdf
+			byte[] dataBytes = reporteArchivoBean.getData();
+
+			String nombreArchivoPDF = reporteArchivoBean.getFieldName();
+
+			response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.‌​sheet"); // response
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + nombreArchivoPDF + "\";");
+			response.setHeader("Cache-Control", "public");
+			response.setHeader("Pragma", "public");
+			response.setDateHeader("Expires", 0);
+			response.setContentLength(dataBytes.length);
+
+			ServletOutputStream ouputStream;
+			try {
+				ouputStream = response.getOutputStream();
+				ouputStream.write(dataBytes, 0, dataBytes.length);
+				ouputStream.flush();
+				ouputStream.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			
+		
+		
+		LOG.info("METHOD 'categoriaexcel':' Fin");
+		return modelAndView;
+	}
+	
+	
+	@PostMapping("/sendmail")
+	public ModelAndView sendmail(@ModelAttribute(name="correoModel")CorreoModel correoModel ,@SessionAttribute("userSession") UserModel userSession,
+			@SessionAttribute("menuSession") MenuDTO menuSession) {
+		LOG.info("METHOD 'showcategorias'");
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_CATEGORIAS);
+		LOG.debug("coorreeeooo:" + correoModel.getEmail());
+		
+		categoriaService.sendMail(userSession.getToken(), correoModel.getEmail());
+		mav.addObject("categorias", categoriaService.listAllCategoria(userSession.getToken()));
+		
+		mav.addObject("correoModel", correoModel);
+		mav.addObject("userSession", userSession);
+		mav.addObject("menuSession", menuSession);
+		return mav;
+	}
 }

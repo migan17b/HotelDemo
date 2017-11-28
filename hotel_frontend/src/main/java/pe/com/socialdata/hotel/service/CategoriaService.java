@@ -2,6 +2,7 @@ package pe.com.socialdata.hotel.service;
 
 import java.util.List;
 
+import pe.com.socialdata.hotel.jasper.ReporteArchivoBean;
 import pe.com.socialdata.hotel.model.CategoriaModel;
 
 
@@ -18,5 +19,7 @@ public interface CategoriaService {
 	
 	public List<CategoriaModel> searchCategoriaByName(String name, String token);
 	
+	public ReporteArchivoBean generateEXCEL( String token) ;
 	
+	public void sendMail(String token,  String mail) ;
 }

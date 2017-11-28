@@ -15,7 +15,8 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -106,6 +107,79 @@ public class ReporteJasperUtil {
 			ex.printStackTrace();
 		} catch (IOException ex) {
 			log.error("IOException en ReporteJasperUtil.GenerarArchivoPDF: " + ex.getMessage(), ex);
+			ex.printStackTrace();
+		}
+		return reportBean;
+	}
+	
+	
+	
+	public static ReporteArchivoBean generarArchivoExcel(ReporteJasperBean params, String rutaJasper, String rutaPdf){
+		ReporteArchivoBean reportBean = new ReporteArchivoBean();
+		JasperReport reporte;
+		String path_jasper= rutaJasper + params.getJasperName();
+		String path_pdf= rutaPdf + params.getFileName();
+		
+		InputStream inputStream = null;
+		byte[] fileBytes ;
+		try {
+			log.debug(path_jasper);
+			/*leer la plantilla jasper*/
+			inputStream = new FileInputStream(path_jasper);
+			log.debug("avilable: " + inputStream.available() );
+			
+			/*cargar la planilla jasper al report*/
+			reporte = (JasperReport) JRLoader.loadObject(inputStream);
+			log.debug("name jasper: " + reporte.getName());
+			
+			/*generar un datasource report con los fields*/
+	        JRDataSource dsLista = new JRBeanCollectionDataSource(params.getListaDetalle());
+	       
+	        /*generar el reporte */
+	        JasperPrint jasperPrint=new JasperPrint() ;
+	        jasperPrint = JasperFillManager.fillReport( reporte,params.getParametros(), dsLista );
+	       
+	       
+	        /*paginas del reporte*/
+	        log.debug("pages: "+ jasperPrint.getPageWidth());
+	      
+	        /*generar el Excel */
+	       // fileBytes=JasperExportManager.exportReportToPdf(jasperPrint);
+	        //fileBytes=JasperExportManager.exportReport(jasperPrint);
+	    
+	        ByteArrayOutputStream output = new ByteArrayOutputStream();
+	        JRXlsExporter exporterXls = new JRXlsExporter();
+            exporterXls.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
+            exporterXls.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, output);
+            exporterXls.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+            exporterXls.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+            exporterXls.exportReport();
+            
+            fileBytes =output.toByteArray();
+            //outputfile.write(output.toByteArray());
+          
+	        log.debug("size byte: "+fileBytes.length);
+	        if(fileBytes.length > 0){
+	        	FileOutputStream file = new FileOutputStream(path_pdf + ".xls");
+	        	file.write(fileBytes);
+	        	reportBean.setData(fileBytes);
+	        	reportBean.setFieldExtension("xls");
+	        	reportBean.setFieldName(path_pdf+".xls");
+	        	file.close();
+	        }else{
+	        	log.error("No se Genero El  Jasper y por lo tanto no el XLS");
+	        }
+	        
+	        
+	        inputStream.close();
+		} catch (FileNotFoundException ex) {
+			log.error("FileNotFoundException en ReporteJasperUtil.GenerarArchivoXLS: " + ex.getMessage(), ex);
+			ex.printStackTrace();
+		}catch (JRException ex) {
+			log.error("JRException en ReporteJasperUtil.GenerarArchivoXLS: " + ex.getMessage(), ex);
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			log.error("IOException en ReporteJasperUtil.GenerarArchivoXLS: " + ex.getMessage(), ex);
 			ex.printStackTrace();
 		}
 		return reportBean;

@@ -1,23 +1,44 @@
 package pe.com.socialdata.hotel.service.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import pe.com.socialdata.hotel.controller.CategoriaController;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+
+import pe.com.socialdata.hotel.jasper.ReporteArchivoBean;
+import pe.com.socialdata.hotel.jasper.ReporteJasperBean;
+import pe.com.socialdata.hotel.jasper.ReporteJasperConstantes;
+import pe.com.socialdata.hotel.jasper.ReporteJasperUtil;
 import pe.com.socialdata.hotel.model.CategoriaModel;
+
 
 import pe.com.socialdata.hotel.rc.client.util.BackendRestInvoker;
 import pe.com.socialdata.hotel.rc.client.util.ConstantesURL;
 import pe.com.socialdata.hotel.service.CategoriaService;
+import pe.com.socialdata.hotel.service.MensajeriaService;
+
 
 @Service
 public class CategoriaServiceImpl  implements CategoriaService {
 
 	private static final Log LOG = LogFactory.getLog(CategoriaServiceImpl.class);
+	
+	@Autowired
+	MensajeriaService mensajeriaService;
 	
 	@Override
 	public CategoriaModel add(CategoriaModel categoriaModel,String  token) {
@@ -56,8 +77,27 @@ public class CategoriaServiceImpl  implements CategoriaService {
 				restInvoker.sendGetList(ConstantesURL.BACKEND_CONTEXT +"/v1/categorias"  , CategoriaModel.class, token);
 		
 		 // responseEntity.getStatusCode() 
-		  
-		  List<CategoriaModel> categorias = responseEntity.getBody();
+		  ObjectMapper mapper = new ObjectMapper();
+		 System.out.println( responseEntity.getBody().getClass().getName());
+		 ObjectMapper MAPPER = new ObjectMapper();
+		 Gson gson = new Gson();
+		 String json = gson.toJson(responseEntity.getBody(),ArrayList.class);
+	        List<CategoriaModel> categorias = null;
+			try {
+				categorias = MAPPER.readValue(json, MAPPER.getTypeFactory().constructCollectionType(ArrayList.class, CategoriaModel.class));
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  //List<CategoriaModel> categorias =(responseEntity.getBody();;
+		   
+				 
 		  LOG.info("METHOD  fin 'listAllCategoria'" + categorias.size());
 		  return categorias;
 	}
@@ -101,6 +141,145 @@ public class CategoriaServiceImpl  implements CategoriaService {
 		  List<CategoriaModel> categorias = responseEntity.getBody();
 		  LOG.info("METHOD  fin 'searchCategoriaByName'" + categorias.size());
 		  return categorias;
+	}
+
+	@Override
+	public ReporteArchivoBean generateEXCEL(String token) {
+		LOG.debug("generateEXCEL");
+		 BackendRestInvoker<CategoriaModel> restInvoker= new BackendRestInvoker<CategoriaModel>(ConstantesURL.BACKEND_SERVER,ConstantesURL.BACKEND_PORT);
+
+		  ResponseEntity<List<CategoriaModel>> responseEntity=
+				restInvoker.sendGetList(ConstantesURL.BACKEND_CONTEXT +"/v1/categorias"  , CategoriaModel.class, token);
+		
+		 // responseEntity.getStatusCode() 
+		  ObjectMapper mapper = new ObjectMapper();
+		 System.out.println( responseEntity.getBody().getClass().getName());
+		 ObjectMapper MAPPER = new ObjectMapper();
+		 Gson gson = new Gson();
+		 String json = gson.toJson(responseEntity.getBody(),ArrayList.class);
+	        List<CategoriaModel> categorias = null;
+			try {
+				categorias = MAPPER.readValue(json, MAPPER.getTypeFactory().constructCollectionType(ArrayList.class, CategoriaModel.class));
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  
+		  LOG.debug("genera reporte"); 
+		 /*GENERANDO EL REPORTE==============================================*/
+	  	Map<String, Object> parametrosJasper = new HashMap<String, Object>();
+	  
+	  
+	  	parametrosJasper.put("nom_hotel","Melany");
+
+		
+	  //	List<HabitacionReporte>listaDataJasper = new ArrayList<HabitacionReporte>();
+	  	List<Map<String , Object>> listaDataJasper = new ArrayList<Map<String , Object>>();
+	  	for (CategoriaModel obj : categorias) {
+	  		LOG.debug("===========================================");
+	  		
+	  	
+		
+	
+			
+	  		Map<String , Object> cat = new HashMap<String , Object>();
+	  		cat.put("id", obj.getId().toString());
+			cat.put("nombre", obj.getNombre());
+			cat.put("precio", obj.getPrecio().toString());
+			
+			
+	  		
+	  		listaDataJasper.add(cat);
+	  		LOG.debug(cat);
+	  	}
+	  	
+	  	ReporteJasperBean reporteJasperBean = new ReporteJasperBean();
+		reporteJasperBean.setParametros(parametrosJasper);
+		reporteJasperBean.setListaDetalle(listaDataJasper);
+		reporteJasperBean.setFileName(ReporteJasperConstantes.PLANILLA_CATEGORIA_XLS);
+		reporteJasperBean.setJasperName( ReporteJasperConstantes.PLANILLA_CATEGORIA_JASPER_XLS );
+		
+		  LOG.debug("generaR jasper");
+		ReporteArchivoBean reporteArchivoBean = ReporteJasperUtil.generarArchivoExcel     (reporteJasperBean, ReporteJasperConstantes.RUTA_JASPER, ReporteJasperConstantes.RUTA_EXCEL);
+			
+		return reporteArchivoBean;
+	}
+	
+	
+	@Override
+	public void sendMail(String token, String mail) {
+		LOG.debug("generateEXCEL");
+		 BackendRestInvoker<CategoriaModel> restInvoker= new BackendRestInvoker<CategoriaModel>(ConstantesURL.BACKEND_SERVER,ConstantesURL.BACKEND_PORT);
+
+		  ResponseEntity<List<CategoriaModel>> responseEntity=
+				restInvoker.sendGetList(ConstantesURL.BACKEND_CONTEXT +"/v1/categorias"  , CategoriaModel.class, token);
+		
+		 // responseEntity.getStatusCode() 
+		  ObjectMapper mapper = new ObjectMapper();
+		 System.out.println( responseEntity.getBody().getClass().getName());
+		 ObjectMapper MAPPER = new ObjectMapper();
+		 Gson gson = new Gson();
+		 String json = gson.toJson(responseEntity.getBody(),ArrayList.class);
+	        List<CategoriaModel> categorias = null;
+			try {
+				categorias = MAPPER.readValue(json, MAPPER.getTypeFactory().constructCollectionType(ArrayList.class, CategoriaModel.class));
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  
+		  LOG.debug("genera reporte"); 
+		 /*GENERANDO EL REPORTE==============================================*/
+	  	Map<String, Object> parametrosJasper = new HashMap<String, Object>();
+	  
+	  
+	  	parametrosJasper.put("nom_hotel","Melany");
+
+		
+	  //	List<HabitacionReporte>listaDataJasper = new ArrayList<HabitacionReporte>();
+	  	List<Map<String , Object>> listaDataJasper = new ArrayList<Map<String , Object>>();
+	  	for (CategoriaModel obj : categorias) {
+	  		LOG.debug("===========================================");
+	  		
+	  	
+		
+	
+			
+	  		Map<String , Object> cat = new HashMap<String , Object>();
+	  		cat.put("id", obj.getId().toString());
+			cat.put("nombre", obj.getNombre());
+			cat.put("precio", obj.getPrecio().toString());
+			
+			
+	  		
+	  		listaDataJasper.add(cat);
+	  		LOG.debug(cat);
+	  	}
+	  	
+	  	ReporteJasperBean reporteJasperBean = new ReporteJasperBean();
+		reporteJasperBean.setParametros(parametrosJasper);
+		reporteJasperBean.setListaDetalle(listaDataJasper);
+		reporteJasperBean.setFileName(ReporteJasperConstantes.PLANILLA_CATEGORIA_PDF);
+		reporteJasperBean.setJasperName( ReporteJasperConstantes.PLANILLA_CATEGORIA_JASPER_RPT );
+		
+		  LOG.debug("generaR jasper");
+		ReporteArchivoBean reporteArchivoBean = ReporteJasperUtil.generarArchivoPDF    (reporteJasperBean, ReporteJasperConstantes.RUTA_JASPER, ReporteJasperConstantes.RUTA_PDF);
+		LOG.debug(">>>>>>>>>>>>>>>getFieldNamePath>>>>>>>>>>>>" + reporteArchivoBean.getFieldNamePath() );	
+		LOG.debug(">>>>>>>>>>getFieldName>>>>>>>>>>>>>>>>>>" + reporteArchivoBean.getFieldName() );
+		
+		mensajeriaService.sendCategorias(mail, reporteArchivoBean.getFieldName());
 	}
 
 }
