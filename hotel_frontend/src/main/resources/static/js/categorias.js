@@ -51,6 +51,7 @@ setTimeout(function() {
 		
 		success: function(result) {
 			var documentoList = result;
+			dataTableCategoria.clear()
 			if (documentoList != null && documentoList.length > 0) {
 				
 				for (var i = 0; i < documentoList.length; i++) {
@@ -60,7 +61,10 @@ setTimeout(function() {
 								"id": documento.id,
 								"nombre": documento.nombre,
 								"precio":documento.precio,
-								"acciones": ""
+								"acciones": " <a href=\"../categoria/categoriaform?id="+ documento.id+"\"  ><button type=\"button\" class=\"btn  btn-primary btn-sd\"><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i></button></a>"
+									+ "<a href=\"../categoria/removecategoria?id="+ documento.id+"\" ><button type=\"button\" class=\"btn btn-danger\"><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></button></a> "
+								          
+					 	
 						};
 					 	dataTableCategoria.row.add(dataRow).draw();
 					};
