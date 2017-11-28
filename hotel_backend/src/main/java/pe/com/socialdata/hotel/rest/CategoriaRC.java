@@ -27,7 +27,7 @@ import pe.com.socialdata.hotel.util.CustomErrorType;
 @RequestMapping("/v1")
 public class CategoriaRC {
 	
-	private static Logger log = Logger.getLogger(CategoriaRC.class);
+	private static Logger LOG = Logger.getLogger(CategoriaRC.class);
 	
 	@Autowired
 	CategoriaService categoriaService;
@@ -35,7 +35,7 @@ public class CategoriaRC {
 	//GET
 		@RequestMapping(value="/categorias", method = RequestMethod.GET, headers = "Accept=application/json")
 		public ResponseEntity<List<CategoriaModel>> getCategorias(@RequestParam(value="nombre", required=false) String nombre){
-			
+			LOG.debug("getCategorias===========================");
 			List<CategoriaModel> categorias = new ArrayList<CategoriaModel>();
 			
 			if (nombre == null) {
@@ -43,7 +43,7 @@ public class CategoriaRC {
 				if (categorias.isEmpty()) {
 					return new ResponseEntity(HttpStatus.NO_CONTENT);
 				}
-				log.debug(" lista de categorias  "+ categorias.size() );
+				LOG.debug(" lista de categorias  "+ categorias.size() );
 				return new ResponseEntity<List<CategoriaModel>>(categorias, HttpStatus.OK);
 			} else {
 				categorias = categoriaService.searchCategoriaByName(nombre);
@@ -76,7 +76,7 @@ public class CategoriaRC {
 		//POST
 		@RequestMapping(value="/categorias", method = RequestMethod.POST, headers = "Accept=application/json")
 		public ResponseEntity<?> createCategoria(@RequestBody CategoriaModel categoriaModel, UriComponentsBuilder uriComponentsBuilder){
-			log.debug("createCategoria " + categoriaModel +"=======================================" );
+			LOG.debug("createCategoria " + categoriaModel +"=======================================" );
 			
 			categoriaModel =categoriaService.save(categoriaModel);
 			
@@ -93,7 +93,7 @@ public class CategoriaRC {
 		//PUT
 		@RequestMapping(value="/categorias", method = RequestMethod.PUT, headers = "Accept=application/json")
 		public ResponseEntity<CategoriaModel> updateCategoria(@RequestBody CategoriaModel categoriaModel){
-			log.debug("updateCategoria " + categoriaModel +"=======================================");
+			LOG.debug("updateCategoria " + categoriaModel +"=======================================");
 			if (categoriaModel.getId() == null || categoriaModel.getId() <= 0) {
 				return new ResponseEntity(new CustomErrorType("idCategoria es requerido"), HttpStatus.CONFLICT);
 			}
@@ -114,7 +114,7 @@ public class CategoriaRC {
 		//DELETE
 		@RequestMapping(value="/categorias/{id}", method = RequestMethod.DELETE)
 		public ResponseEntity<?> deleteCategoria(@PathVariable("id") Long idCategoria){
-			log.debug("deleteCategoria " + idCategoria +"=======================================");
+			LOG.debug("deleteCategoria " + idCategoria +"=======================================");
 			if (idCategoria == null || idCategoria <= 0) {
 				return new ResponseEntity(new CustomErrorType("idCategoria es requerido"), HttpStatus.CONFLICT);
 			}

@@ -1,33 +1,11 @@
 
 function initElementsCategorias(){
-	initTable();
 	addEventElement("btnMail", "click", clickBtnMail);
 	addEventElement("btnSearch", "click", clickBtnSearch);
 	
 }
 
-function initTable(){
-	
 
-	
-	
-	$('#tblCategorias').DataTable( {
-      
-        responsive: true,
-        bPaginate: false,
-        bLengthChange: false,
-        bFilter: false,
-        bSort: false,
-        bInfo: false,
-        bAutoWidth: false,
-        columns: [
-        	 { data: "id" },
-            { data: "nombre" },
-            { data: "precio" },
-            { data: "acciones" }
-        ]
-    } );
-}
 
 
 function clickBtnMail() {
@@ -37,7 +15,7 @@ function clickBtnMail() {
 function clickBtnSearch() {
 setTimeout(function() {
 	var nombreSearch = getUpperCaseValueInputText("txtSearch");
-	var dataTableCategoria = $("#tblCategorias").DataTable();
+	
 	var categoriaBody ={	
 					"nombre": nombreSearch
 				};
@@ -56,18 +34,9 @@ setTimeout(function() {
 				for (var i = 0; i < documentoList.length; i++) {
 					var documento = documentoList[i];
 					 	console.log(documento);
-					 	var dataRow = {
-								"id": documento.id,
-								"nombre": documento.nombre,
-								"precio":documento.precio,
-								"acciones": ""
-						};
-					 	dataTableCategoria.row.add(dataRow).draw();
 					};
 	
 			}
-			
-			
 			
 		},
 		error: function() {
@@ -77,7 +46,3 @@ setTimeout(function() {
 }, 500);
 
 }
-
-$(document).ready(function() {
-    
-} );

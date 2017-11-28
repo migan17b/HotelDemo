@@ -86,9 +86,14 @@ private static Log LOG = LogFactory.getLog(EmpresaServiceImpl.class);
 
 	@Override
 	public List<CategoriaModel> searchCategoriaByName(String name) {
+		LOG.debug("searchCategoriaByName=========================================");
+		List<Categoria> categorias=(List<Categoria>) categoriaRepository.findByNombreLike("%"+name+"%");
 		List<CategoriaModel> lista = new ArrayList<CategoriaModel>();
-		CategoriaModel categoria = categoriaConvert.convertCategoria2CategoriaModel (categoriaRepository.findByNombreLike("%"+name+"%"));
-		lista.add(categoria);
+		for(Categoria obj:categorias ) {
+			CategoriaModel categoria = categoriaConvert.convertCategoria2CategoriaModel (obj);
+			lista.add(categoria);
+		}
+	
 		return lista;
 	}
 
