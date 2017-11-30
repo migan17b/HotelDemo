@@ -78,7 +78,7 @@ public class CategoriaServiceImpl  implements CategoriaService {
 		
 		 // responseEntity.getStatusCode() 
 		  ObjectMapper mapper = new ObjectMapper();
-		 System.out.println( responseEntity.getBody().getClass().getName());
+		
 		 ObjectMapper MAPPER = new ObjectMapper();
 		 Gson gson = new Gson();
 		 String json = gson.toJson(responseEntity.getBody(),ArrayList.class);
@@ -98,7 +98,7 @@ public class CategoriaServiceImpl  implements CategoriaService {
 		  //List<CategoriaModel> categorias =(responseEntity.getBody();;
 		   
 				 
-		  LOG.info("METHOD  fin 'listAllCategoria'" + categorias.size());
+		  LOG.info("METHOD  fin 'listAllCategoria'" );
 		  return categorias;
 	}
 

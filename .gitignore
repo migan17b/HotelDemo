@@ -6,6 +6,7 @@ service_security/build/
 /hotel_backend/build/
 /hotel_frontend/build/
 /service_security/build/
+
 !gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###
@@ -21,11 +22,3 @@ service_security/build/
 *.iws
 *.iml
 *.ipr
-
-### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
