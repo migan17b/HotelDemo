@@ -18,6 +18,9 @@ service_security/bin/
 
 !gradle/wrapper/gradle-wrapper.jar
 
+*.class
+*.jar
+
 ### STS ###
 .apt_generated
 .classpath
