@@ -7,6 +7,15 @@ service_security/build/
 /hotel_frontend/build/
 /service_security/build/
 
+
+/hotel_backend/bin/
+/hotel_frontend/bin/
+/service_security/bin/
+
+hotel_backend/bin/
+hotel_frontend/bin/
+service_security/bin/
+
 !gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###
