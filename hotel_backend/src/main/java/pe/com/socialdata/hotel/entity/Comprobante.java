@@ -9,12 +9,12 @@ import java.util.List;
 
 
 @Entity
-@Table(name="EMPRESA", schema="REG_HOTEL")
+@Table(name="EMPRESA", schema="HR")
 public class Comprobante extends AuditingEntity implements  BaseEntity, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="COMPROBANTE_ID_GENERATOR", allocationSize = 1,sequenceName="SEQ_COMPROBANTE" )
+	@SequenceGenerator(name="COMPROBANTE_ID_GENERATOR", allocationSize = 1,sequenceName="HR.SEQ_COMPROBANTE" )
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COMPROBANTE_ID_GENERATOR" )
 	@Column(name="ID_COMPROBANTE")
 	private Long id;

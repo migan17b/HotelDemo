@@ -12,14 +12,14 @@ import org.springframework.data.domain.Persistable;
  * 
  */
 @Entity
-@Table(name="PRODUCTO",  schema="REG_HOTEL")
+@Table(name="PRODUCTO",  schema="HR")
 @DynamicUpdate
 @NamedQuery(name = "Producto.getByIdNamedQuery", query = "FROM Producto WHERE id = ?1")
 public class Producto extends AuditingEntity implements  BaseEntity{
 	
 	
 	@Id
-	@SequenceGenerator(name="PRODUCTO_IDPRODUCTO_GENERATOR", allocationSize = 1,sequenceName="SEQ_PRODUCTO" )
+	@SequenceGenerator(name="PRODUCTO_IDPRODUCTO_GENERATOR", allocationSize = 1,sequenceName="HR.SEQ_PRODUCTO" )
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PRODUCTO_IDPRODUCTO_GENERATOR" )
 	@Column(name="ID_PRODUCTO")
 	private Long id;

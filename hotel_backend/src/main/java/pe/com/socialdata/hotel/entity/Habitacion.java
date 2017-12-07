@@ -9,12 +9,12 @@ import java.util.List;
 
 
 @Entity
-@Table(name="HABITACION", schema="REG_HOTEL")
+@Table(name="HABITACION", schema="HR")
 public class Habitacion extends AuditingEntity implements  BaseEntity,  Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="HABITACION_ID_GENERATOR", allocationSize = 1,sequenceName="SEQ_HABITACION")
+	@SequenceGenerator(name="HABITACION_ID_GENERATOR", allocationSize = 1,sequenceName="HR.SEQ_HABITACION")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="HABITACION_ID_GENERATOR")
 	@Column(name="ID_HABITACION")
 	private Long id;

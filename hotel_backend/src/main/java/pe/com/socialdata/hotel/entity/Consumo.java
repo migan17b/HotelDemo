@@ -11,7 +11,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="CONSUMO",  schema="REG_HOTEL")
+@Table(name="CONSUMO",  schema="HR")
 public class Consumo extends AuditingEntity implements  BaseEntity, Serializable {
 	private static final long serialVersionUID = 1L;
 

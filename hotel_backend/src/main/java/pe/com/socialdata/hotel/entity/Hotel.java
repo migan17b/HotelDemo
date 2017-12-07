@@ -16,7 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="HOTEL", schema="REG_HOTEL")
+@Table(name="HOTEL", schema="HR")
 public class Hotel extends AuditingEntity implements  BaseEntity,  Serializable {
 	
 
@@ -24,7 +24,7 @@ public class Hotel extends AuditingEntity implements  BaseEntity,  Serializable 
 
 
 	@Id
-	@SequenceGenerator(name="HOTEL_ID_GENERATOR", allocationSize = 1,sequenceName="SEQ_HOTEL")
+	@SequenceGenerator(name="HOTEL_ID_GENERATOR", allocationSize = 1,sequenceName="HR.SEQ_HOTEL")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="HOTEL_ID_GENERATOR")
 	@Column(name="ID_HOTEL")
 	private Long id;

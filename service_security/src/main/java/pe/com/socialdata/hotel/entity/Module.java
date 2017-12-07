@@ -12,7 +12,7 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="MODULE" , schema="REG_HOTEL")
+@Table(name="MODULE" , schema="HR")
 
 public class Module implements Serializable {
 	private static final long serialVersionUID = 1L;

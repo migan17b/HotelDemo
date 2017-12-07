@@ -11,7 +11,7 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="USERS" ,  schema="REG_HOTEL")
+@Table(name="USERS" ,  schema="HR")
 public class User   extends AuditingEntity implements  BaseEntity,  Serializable{
 	private static final long serialVersionUID = 1L;
 

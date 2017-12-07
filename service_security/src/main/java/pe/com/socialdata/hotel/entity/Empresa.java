@@ -14,12 +14,12 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="EMPRESA", schema="REG_HOTEL")
+@Table(name="EMPRESA", schema="HR")
 public class Empresa   extends AuditingEntity implements  BaseEntity,  Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@SequenceGenerator(name="EMPRESA_IDEMPRESA_GENERATOR", allocationSize = 1,sequenceName="SEQ_EMPRESA" )
+	@SequenceGenerator(name="EMPRESA_IDEMPRESA_GENERATOR", allocationSize = 1,sequenceName="HR.SEQ_EMPRESA" )
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="EMPRESA_IDEMPRESA_GENERATOR" )
 	@Column(name="ID_EMPRESA")
 	private Integer id;

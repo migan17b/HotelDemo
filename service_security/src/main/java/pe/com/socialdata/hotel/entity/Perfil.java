@@ -10,7 +10,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="PERFIL" , schema="REG_HOTEL")
+@Table(name="PERFIL" , schema="HR")
 public class Perfil implements Serializable {
 	private static final long serialVersionUID = 1L;
 

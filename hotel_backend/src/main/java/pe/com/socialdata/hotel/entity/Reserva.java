@@ -20,12 +20,12 @@ import javax.persistence.TemporalType;
 
 
 @Entity
-@Table(name="RESERVA",  schema="REG_HOTEL")
+@Table(name="RESERVA",  schema="HR")
 public class Reserva extends AuditingEntity implements  BaseEntity, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="RESERVA_IDRESERVA_GENERATOR", allocationSize = 1,sequenceName="SEQ_RESERVA")
+	@SequenceGenerator(name="RESERVA_IDRESERVA_GENERATOR", allocationSize = 1,sequenceName="HR.SEQ_RESERVA")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RESERVA_IDRESERVA_GENERATOR")
 	@Column(name="ID_RESERVA")
 	private Long id;

@@ -9,13 +9,13 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="USERROLE" , schema="REG_HOTEL", 
+@Table(name="USERROLE" , schema="HR", 
 uniqueConstraints=@UniqueConstraint(columnNames={"ROLE","USER_NAME"} ))
 public class UserRole extends AuditingEntity implements  BaseEntity,  Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="USER_ROLE_ID_GENERATOR", allocationSize = 1,sequenceName="SEQ_USER_ROLE")
+	@SequenceGenerator(name="USER_ROLE_ID_GENERATOR", allocationSize = 1,sequenceName="HR.SEQ_USER_ROLE")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="USER_ROLE_ID_GENERATOR")
 	@Column(name="USER_ROLE_ID")
 	private Long userRoleId;

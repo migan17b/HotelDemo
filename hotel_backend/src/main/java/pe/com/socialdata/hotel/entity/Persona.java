@@ -10,12 +10,12 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="PERSONA" , schema="REG_HOTEL")
+@Table(name="PERSONA" , schema="HR")
 public class Persona  extends AuditingEntity implements  BaseEntity,  Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="PERSONA_ID_GENERATOR", allocationSize = 1,sequenceName="SEQ_PERSONA" )
+	@SequenceGenerator(name="PERSONA_ID_GENERATOR", allocationSize = 1,sequenceName="HR.SEQ_PERSONA" )
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PERSONA_ID_GENERATOR" )
 	@Column(name="ID_PERSONA")
 	private Long id;

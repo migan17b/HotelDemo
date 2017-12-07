@@ -12,12 +12,12 @@ import java.util.List;
 
 
 @Entity
-@Table(name="CATEGORIA", schema="REG_HOTEL")
+@Table(name="CATEGORIA", schema="HR")
 public class Categoria  extends AuditingEntity implements Serializable, BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="CATEGORIA_ID_GENERATOR", allocationSize = 1,sequenceName="SEQ_CATEGORIA" )
+	@SequenceGenerator(name="CATEGORIA_ID_GENERATOR", allocationSize = 1,sequenceName="HR.SEQ_CATEGORIA" )
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CATEGORIA_ID_GENERATOR" )
 	@Column(name="ID_CATEGORIA")
 	private Long id;
