@@ -22,3 +22,7 @@ linea de comando. ahora ejecute la siguiente linea de comando para clonar
 ##3. Compilar e Iniciar Servicios.
 
 
+Instalar en maven local
+> mvn install:install-file -Dfile=ojdbc7.jar -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.1 -Dpackaging=jar
+
+
